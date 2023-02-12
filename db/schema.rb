@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_18_091410) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_162630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_091410) do
   end
 
   create_table "menu_items", force: :cascade do |t|
+    t.bigint "translation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_menu_items_on_parent_id"
+    t.index ["translation_id"], name: "index_menu_items_on_translation_id"
+  end
+
+  create_table "translations", force: :cascade do |t|
     t.string "english"
     t.string "persian"
     t.string "arabic"
@@ -31,6 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_091410) do
     t.string "dutch"
     t.string "russian"
     t.string "italian"
+    t.string "swedish"
     t.string "hindi"
     t.string "urdu"
     t.string "chiness"
@@ -39,11 +49,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_091410) do
     t.string "thai"
     t.string "malay"
     t.string "indonesian"
-    t.string "component"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "parent_id"
-    t.index ["parent_id"], name: "index_menu_items_on_parent_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -62,4 +69,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_18_091410) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "menu_items", "translations"
 end

@@ -1,9 +1,6 @@
-# frozen_string_literal: true
-
-# Menu Items Migration
-class CreateMenuItems < ActiveRecord::Migration[7.0]
+class CreateTranslations < ActiveRecord::Migration[7.0]
   def change
-    create_table :menu_items do |t|
+    create_table :translations do |t|
       t.string :english
       t.string :persian
       t.string :arabic
@@ -14,6 +11,7 @@ class CreateMenuItems < ActiveRecord::Migration[7.0]
       t.string :dutch
       t.string :russian
       t.string :italian
+      t.string :swedish
       t.string :hindi
       t.string :urdu
       t.string :chiness
@@ -22,9 +20,7 @@ class CreateMenuItems < ActiveRecord::Migration[7.0]
       t.string :thai
       t.string :malay
       t.string :indonesian
-      t.string :component
       t.timestamps
     end
-    add_reference :menu_items, :parent, index: true
   end
 end
