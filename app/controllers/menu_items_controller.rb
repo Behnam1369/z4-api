@@ -6,15 +6,10 @@ class MenuItemsController < ApplicationController
   end
 
   def index_lang
-    # render json: MenuItem.where(parent_id: nil) , 
-    # # include: [:title], 
-    # methods: [:get_title, :children]
-
-
     lang = params[:lang]
     menu_items = MenuItem.where(parent_id: nil)
     menu_items_with_title = menu_items.map do |menu_item|
-      { id: menu_item.id,title: menu_item.get_title(lang), children: menu_item.children(lang)  }
+      { id: menu_item.id, title: menu_item.get_title(lang), children: menu_item.children(lang) }
     end
     render json: { success: true, data: menu_items_with_title }
   end

@@ -7,13 +7,13 @@ class MenuItem < ApplicationRecord
     arr = []
     if sub_menu_items.present?
       sub_menu_items.map do |child|
-        arr << {id: child.id, title: child.get_title(lang), children: child.children(lang)}
+        arr << { id: child.id, title: child.get_title(lang), children: child.children(lang) }
       end
     end
     arr
   end
 
   def get_title(lang)
-    self.title[lang]
+    title[lang]
   end
 end
