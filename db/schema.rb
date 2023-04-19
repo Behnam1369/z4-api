@@ -10,9 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_162630) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_18_061457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "center_types", force: :cascade do |t|
+    t.integer "first"
+    t.integer "last"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "centers", force: :cascade do |t|
+    t.integer "code"
+    t.bigint "center_type_id", null: false
+    t.boolean "active"
+    t.string "table"
+    t.integer "record"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["center_type_id"], name: "index_centers_on_center_type_id"
+  end
+
+  create_table "field_types", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "field_values", force: :cascade do |t|
+    t.string "value"
+    t.string "table"
+    t.integer "record"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fields", force: :cascade do |t|
+    t.bigint "field_type_id", null: false
+    t.boolean "required"
+    t.string "table"
+    t.integer "record"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["field_type_id"], name: "index_fields_on_field_type_id"
+  end
 
   create_table "jwt_denylist", force: :cascade do |t|
     t.string "jti", null: false
@@ -21,12 +62,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_162630) do
   end
 
   create_table "menu_items", force: :cascade do |t|
-    t.bigint "translation_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "parent_id"
     t.index ["parent_id"], name: "index_menu_items_on_parent_id"
-    t.index ["translation_id"], name: "index_menu_items_on_translation_id"
+  end
+
+  create_table "operation_logs", force: :cascade do |t|
+    t.datetime "time"
+    t.string "old"
+    t.string "new"
+    t.string "table"
+    t.integer "record"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_operation_logs_on_user_id"
   end
 
   create_table "translations", force: :cascade do |t|
@@ -49,6 +100,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_162630) do
     t.string "thai"
     t.string "malay"
     t.string "indonesian"
+    t.string "table"
+    t.integer "record"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -69,5 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_162630) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "menu_items", "translations"
+  add_foreign_key "centers", "center_types"
+  add_foreign_key "fields", "field_types"
+  add_foreign_key "operation_logs", "users"
 end
