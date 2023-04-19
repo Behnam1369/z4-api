@@ -1,3 +1,3 @@
 class Translation < ApplicationRecord
-  # has_one :menu_item, :foreign_key => 'translation_id'
+  belongs_to :Translatable, polymorphic: true, foreign_key: :record, foreign_type: :table, inverse_of: :translation
 end
