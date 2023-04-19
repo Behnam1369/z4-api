@@ -20,6 +20,8 @@ class CreateTranslations < ActiveRecord::Migration[7.0]
       t.string :thai
       t.string :malay
       t.string :indonesian
+      t.string :table
+      t.integer :record
       t.timestamps
     end
   end
