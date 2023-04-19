@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get '/menu_items_lang/:lang', to: 'menu_items#index_lang'
   # Defines the root path route ("/")
-  # root "articles#index"
+
+  resources :center_types, only: [:index, :create, :update, :destroy]
 end
