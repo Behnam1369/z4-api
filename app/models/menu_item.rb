@@ -1,7 +1,9 @@
 class MenuItem < ApplicationRecord
   belongs_to :parent, class_name: 'MenuItem', optional: true
   has_many :sub_menu_items, class_name: 'MenuItem', foreign_key: 'parent_id'
-  belongs_to :title, class_name: 'Translation', foreign_key: 'translation_id', optional: true
+  has_one :translation, as: :Translatable, foreign_key: :record, foreign_type: :table, dependent: :destroy, inverse_of: :Translatable
+  accepts_nested_attributes_for :translation
+  validates_associated :translation
 
   def children(lang)
     arr = []
@@ -14,6 +16,6 @@ class MenuItem < ApplicationRecord
   end
 
   def get_title(lang)
-    title[lang]
+    translation[lang]
   end
 end
